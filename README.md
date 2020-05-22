@@ -79,7 +79,7 @@ project
 ```
 
 ## User Service:
-- Register by email: [POST] /api/users/register_by_email
+- Register by email: [POST] /api/users/register-by-email
 - Login: [POST] /api/users/login
 
 ```javascript
