@@ -5,6 +5,7 @@
 
 
 ## Folder structure
+```bash
 project
 |____docs/
 |
@@ -73,7 +74,7 @@ project
 |   package-lock.json
 |   package.json
 |   swagger.yaml
-
+```
 
 ## User Service:
 - Register by email: [POST] /api/users/register_by_email
