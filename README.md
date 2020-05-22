@@ -7,7 +7,7 @@
 ## Folder structure
 ```bash
 project
-|____docs/
+|____migration/
 |
 |____config/
 |    default.yml
