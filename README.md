@@ -3,6 +3,7 @@
 ```bash
 -  [`API Design Guide`](https://cloud.google.com/apis/design)
 -  [`Node.js Style Guide`](https://github.com/airbnb/javascript)
+[this document](https://tools.ietf.org/html/rfc3986)
 ```
 
 
