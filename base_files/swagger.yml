@@ -1,0 +1,307 @@
+openapi: 3.0.0
+servers:
+  - description: base core rule example swagger
+    url: "https://localhost:8000/users"
+info:
+  title: This is an awesome example
+  version: 1.0.0
+  contact:
+    email: HoangThequyen01@gmail.com
+tags:
+  - name: users
+paths:
+  /users/registerByEmail:
+    post:
+      tags:
+        - users
+      description: register new user by email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "HoangTheQuyen01@gmail.com"
+                name:
+                  type: string
+                  example: "Quyen"
+                password:
+                  type: string
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    example: MVbEKo6HS9XZsXSRQxZLzJJghcHtJJZ2TgZCAYgB
+                  email:
+                    type: string
+                    example: hoangthequy1e2n211x21222@gmail.com
+                  name:
+                    type: string
+                    example: Quyen
+                  emailVerified:
+                    type: boolean
+                    example: false
+                  createdAt:
+                    type: string
+                    format: date-tome
+                    example: "2020-03-03T06:47:36.303Z"
+        404: 
+          description: "Resource not found(API not found)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notfound'
+        415:
+          description: "unsupported media type"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unsupported'
+        422:
+          description: "unprocessable entity"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors: 
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: number
+                          example: 422
+                        message:
+                          type: string
+                    example:
+                      - code: 422
+                        message: "name is a required property"
+                      - code: 422
+                        message: "email is a required property"
+                      - code: 422
+                        message: "password is a required property"
+                      - code: 11000
+                        message: "email already exists"
+                      - code: 422
+                        message: "password should NOT be shorter than 6 characters"
+                      - code: 422
+                        message: "name should NOT be shorter than 2 characters"
+        500:
+          description: "unexpected error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unexpected'
+  /users/login:
+    post:
+      tags:
+        - users
+      description: grant jwt refresh token to user by email or phoneNumber
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - password
+                - email
+                - phoneNumber
+              properties:
+                phoneNumber:
+                  type: string
+                  example: '+84332901434'
+                email:
+                  type: string
+                  format: email
+                  example: "HoangTheQuyen01@gmail.com"
+                password:
+                  type: string
+                  description: password must be encrypted on client using public key
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  refreshToken:
+                    type: string
+                    example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhd09rNEhQaDRRcUZpakRuRV9LYmd4UW5mTHY5ZXp2U2Y0dDd0bFdjIiwiZW1haWwiOiJob2FuZ3RoZXF1eWVuMDExQGdtYWlsLmNvbSIsIm5hbWUiOiJRdXllbiIsImVtYWlsVmVyaWZpZWQiOnRydWUsImNyZWF0ZWRBdCI6IjIwMjAtMDMtMDRUMDQ6MTg6NTEuMjg4WiIsImV4cCI6ODY0MDAwMDAwMCwiaXNzIjoiXCJDb21zcGFjZXMgbWF0Y2hpbmdcIiwiLCJpYXQiOjE1ODMzMDUxNzF9.N2iYzv78DMmx9j8sK-kGpncTnspvDfqCvivVuHGL6XlAr4VTbO8kjfToiT3BX1t1yoxNNmHr-G-dRfri5akaD0H--hEzUkPg6cyyUEd6jtF02MV3W6Ipbegv-uivs3Buff3g1H8ovsPbGlW3nPzah01SzoSsl61dXAuVUqyiFoKr_CIt_cx7w7T6Nh2NMBlNMiEGDtaxDEQlMlkxYud_vHmLVJZ7q-dmGVVl-QeTqRcZAjbjlP3x9eIGio47DfZ-u1LFV-eTAi2LRoNsQKTdQMMVK6IpuiINwYGavtYDVGBHeIZDYAyOcNm0IwNZA2heAIZuSfyIKXYuLLsggMEOMwW4GZwgmCUnwfz1-hksnHOcq0oZm8PRaxNkf9W2vOh00g5lyyeJ2RpOdxhfsR-3N6THPEdz7nIHf3lBspAV_ze_FWMXco031LrLVGk-r6FBHFu1EE_SfG0B2w9qVcypeyIq5CuCWRIR0zuABop6_DMEIGDD6GesSwhsQWc2cFfXrBCa_SFRGD6rrbz8ppOUlC9hFEke4WHymMw4tV01iV9SY2efSjvrpAtZ7UfPYoV2AioQ5dJklqUXsNyv1KbVSRsWRuKhqGqScSgQ_Kx9w035rG42itm7N-HbcQdPOW8-A9CfZrOEmkNXsGyygfxExXQOZkahtPn-w52WZYvsu50
+                  accessToken:
+                    type: string
+                    example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhd09rNEhQaDRRcUZpakRuRV9LYmd4UW5mTHY5ZXp2U2Y0dDd0bFdjIiwiZW1haWwiOiJob2FuZ3RoZXF1eWVuMDExQGdtYWlsLmNvbSIsIm5hbWUiOiJRdXllbiIsImVtYWlsVmVyaWZpZWQiOnRydWUsImNyZWF0ZWRBdCI6IjIwMjAtMDMtMDRUMDQ6MTg6NTEuMjg4WiIsImV4cCI6NjAwMDAwLCJpc3MiOiJcIkNvbXNwYWNlcyBtYXRjaGluZ1wiLCIsImlhdCI6MTU4MzMwNTE3MX0.tt2HZ_hblhmpFTQft8dimbnybN3iAOxpJE50R1SEM8sSyLOFekCGWdxj5uatBTuEhSWFJ4c0veKGBjyrEbAJba_XF3wSdDu12SpLkKWcbUHix_FG1rfsq7THB9xiWttr1R75OFzzWcKmJEY07TjY8KaHRlPyi-W8OE7VyFgcG-QO_1r1IRED-1TzUjbDv78m2HQ7cSWrmJuSWBd5LqROxz99d8iqqdH6qDwlQ3dMzAJ7mWp3u9w8iD8BnYHfCULCmBcyb_-wQ29zMk8aQyKHKI8tKl6Iy4Y6r-OpireBd0Tbh4A_5oYO_LsYCHwQP7qmcJX_b9CZt9SijUNDcSsZoRKx2cYJL_BrwxR2-KpbXpxiYGS_MD1r1CuTYJf9PIpF7Q6QfABqxPbcWPhUp-hxDVus4NmebTP46FGJjBYnlFl-XWmQCb2uwiMTrD8Bcj9w-NsHY6dPc9nAsoKuF2e9W_x32vpeMhDk-bUYII4_qE48SKU7gzAk4BYCDJQOi6cBSH6QZ8WkyCvBOMHU9r7xxNN_QsEtB76cFt7efAH1IhuepBPMeFH26gYiH3qLd-kWzdLqwbwf96-oS84tg9cqgLNQH6xh52q4bAW6P8zRMmAjZ7zZqVkhqQKr0DBNxOQvp7U1_eli7-_iZWYdsgDqeny8G7-k8uJfOFYGMTs_moY
+        404: 
+          description: "Resource not found"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors: 
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: number
+                        message:
+                          type: string
+                    example:
+                      - code: 404
+                        message: "not found"
+                      - code: 404
+                        message: "phone number not found"
+                      - code: 404
+                        message: "email not found"
+        412:
+          description: "pre condition failed"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors: 
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: number
+                          example: 412
+                        message:
+                          type: string
+                    example:
+                      - code: 412
+                        message: "email is not verified"
+                      - code: 412
+                        message: "password is wrong"
+        415:
+          description: "unsupported media type"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unsupported'
+        422:
+          description: "unprocessable entity"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors: 
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: number
+                          example: 422
+                        message:
+                          type: string
+                    example:
+                      - code: 422
+                        message: "phoneNumber is a required property"
+                      - code: 422
+                        message: "password is a required property"
+                      - code: 422
+                        message: "email is a required property"
+        500:
+          description: "unexpected error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unexpected'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: number
+          format: int32
+          example: 1
+        perPage:
+          type: number
+          format: int32
+          example: 1
+        totalResults:
+          type: number
+          format: int32
+          example: 10
+    Unsupported:
+      type: object
+      properties:
+        errors: 
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: number
+                example: 415
+              message:
+                type: string
+                example: unsupported media type
+    unexpected:
+      type: object
+      properties:
+        errors: 
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: number
+                example: 500
+              message:
+                type: string
+                example: unexpected error
+    Notfound:
+      type: object
+      properties:
+        errors: 
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: number
+                example: 404
+              message:
+                type: string
+                example: not found
+    Unauthorized:
+      type: object
+      properties:
+        errors: 
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: number
+                example: 401
+              message:
+                type: string
+                example: unauthorization
+  
