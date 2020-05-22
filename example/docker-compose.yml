@@ -8,14 +8,14 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=838RU0XATU
-      - POSTGRES_DB=timeKeepingDbsDev
-      - DATABASE_URL=postgres://postgres:838RU0XATU@postgres-db-dev:5432/timeKeepingDbsDev
+      - POSTGRES_DB=db
+      - DATABASE_URL=postgres://postgres:838RU0XATU@postgres-db-dev:5432/db
   migration-dev:
     build:
       context: .
     command: npm run migrate up
     environment:
-      - DATABASE_URL=postgres://postgres:838RU0XATU@postgres-db-dev:5432/timeKeepingDbsDev
+      - DATABASE_URL=postgres://postgres:838RU0XATU@postgres-db-dev:5432/db
     depends_on:
     - postgres-db-dev
   timeskip-app-dev:
@@ -28,7 +28,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=8000
-      - PG_URL=postgres://postgres:838RU0XATU@postgres-db-dev:5432/timeKeepingDbsDev
+      - PG_URL=postgres://postgres:838RU0XATU@postgres-db-dev:5432/db
     ports:
       - "5500:8000"
   
