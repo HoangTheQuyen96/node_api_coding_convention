@@ -1,0 +1,10 @@
+author: "Hoang The Quyen"
+env: "development"
+port: 7000
+host: localhost
+pgUrl: "postgres://postgres:quyen123@localhost:5432/db"
+iss: "HoangQuyen"
+jwtExpTime: 10000
+apiVersionUrl: "v1"
+algorithmJWT:
+  algorithm: "RS256"

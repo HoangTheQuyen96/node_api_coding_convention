@@ -1,0 +1,34 @@
+# docker-compose.yml
+version: "3"
+services:
+  postgres-db-dev:
+    image: postgres:12.1-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=838RU0XATU
+      - POSTGRES_DB=timeKeepingDbsDev
+      - DATABASE_URL=postgres://postgres:838RU0XATU@postgres-db-dev:5432/timeKeepingDbsDev
+  migration-dev:
+    build:
+      context: .
+    command: npm run migrate up
+    environment:
+      - DATABASE_URL=postgres://postgres:838RU0XATU@postgres-db-dev:5432/timeKeepingDbsDev
+    depends_on:
+    - postgres-db-dev
+  timeskip-app-dev:
+    build: 
+      context: .
+    restart: on-failure:5
+    depends_on:
+      - postgres-db-dev
+      - migration-dev
+    environment:
+      - NODE_ENV=development
+      - PORT=8000
+      - PG_URL=postgres://postgres:838RU0XATU@postgres-db-dev:5432/timeKeepingDbsDev
+    ports:
+      - "5500:8000"
+  

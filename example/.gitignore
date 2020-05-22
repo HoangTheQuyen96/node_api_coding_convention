@@ -1,0 +1,14 @@
+/node_modules
+*.log
+.idea/
+.env/
+.env
+*.*~
+.vs/
+./coverage
+coverage
+/coverage
+./coverage/*
+env
+/env
+./env
