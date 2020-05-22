@@ -10,7 +10,7 @@ info:
 tags:
   - name: users
 paths:
-  /users/registerByEmail:
+  /users/register-by-email:
     post:
       tags:
         - users
