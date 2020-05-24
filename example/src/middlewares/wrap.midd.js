@@ -6,6 +6,7 @@ module.exports = fn => async (req, res) => {
       .set(headers)
       .json(body);
   } catch (error) {
+    console.log(error);
     res.status(error.code || 400).json({
       status: 0,
       reason: 'error.message',

@@ -1,10 +1,10 @@
 # docker-compose.yml
-version: "3"
+version: '3'
 services:
   postgres-db-dev:
     image: postgres:12.1-alpine
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=838RU0XATU
@@ -17,9 +17,9 @@ services:
     environment:
       - DATABASE_URL=postgres://postgres:838RU0XATU@postgres-db-dev:5432/db
     depends_on:
-    - postgres-db-dev
-  timeskip-app-dev:
-    build: 
+      - postgres-db-dev
+  app-dev:
+    build:
       context: .
     restart: on-failure:5
     depends_on:
@@ -30,5 +30,4 @@ services:
       - PORT=8000
       - PG_URL=postgres://postgres:838RU0XATU@postgres-db-dev:5432/db
     ports:
-      - "5500:8000"
-  
+      - '5500:8000'

@@ -1,7 +1,7 @@
 const pg = require('../core/pg.core');
 
-module.exports.register = ({ email, name, password }) =>
+module.exports.register = ({ id, email, name, password }) =>
   pg.query({
-    text: `INSERT INTO users(email, name, password) VALUES ($1, $2, $3) RETURN *`,
-    values: [email, name, password],
+    text: `INSERT INTO users(id, email, name, password) VALUES ($1, $2, $3, $4) RETURNING *`,
+    values: [id, email, name, password],
   });
